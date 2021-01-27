@@ -84,7 +84,7 @@ class FilmList extends Component {
                             xxl: 3,
                         }}
                         pagination={{
-                            defaultPageSize: 10,
+                            defaultPageSize: 9,
                             pageSizeOptions: [20, 30, 60],
                             size: "small",
                         }}
