@@ -1,14 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap')
 
+button
+  background: none
+  border: none
 .container
   max-width: 976px
   margin: 0 auto
   padding-bottom: 64px
   & .sort
-    font-family: "Ubuntu", system-ui
+    display: flex
+    border-bottom: 1px solid #e0e0e0
+    font-family: "Ubuntu"
     font-weight: bold
-    font-display: swap
     text-transform: uppercase
+    & .ant-dropdown-trigger.ant-dropdown-link
+      margin-right: 32px
+    & .ant-dropdown-trigger.ant-dropdown-link:last-child
+      margin-right: 0
     & span
       color: white
       display: block
@@ -28,8 +36,12 @@
   & .ant-card-body
     padding: 24px 24px 24px 0
   & .ant-card
+    position: relative
     background: black
     color: white
+    & .about-film
+      position: absolute
+      bottom: 0
   & .ant-pagination-item-active
     background: black
     border: none
@@ -88,6 +100,8 @@
     max-width: 700px
     margin: 0 auto
     padding-bottom: 64px
+    & p
+      font-size: 16px
 
 @media screen and (max-width: 480px)
   .container

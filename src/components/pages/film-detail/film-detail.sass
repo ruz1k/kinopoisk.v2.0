@@ -23,3 +23,15 @@
     max-width: 600px
   & .ant-rate-star-first .anticon
     color: #fadb14 !important
+
+@media screen and (max-width: 480px)
+  .container__content
+    flex-wrap: wrap
+  .ant-rate-star:not(:last-child)
+    margin-right: 4px
+  .content__poster
+    margin-bottom: 16px
+
+@media screen and (min-width: 767px) and (max-width: 1024px)
+  .container__content .content__caption
+    max-width: 335px

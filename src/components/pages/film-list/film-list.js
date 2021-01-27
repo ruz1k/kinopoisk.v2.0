@@ -52,17 +52,87 @@ class FilmList extends Component {
                 list: sorted
             })
         }
+        const filterGenres = (genre_id) => {
+            const sortedGenres = list.filter(item => item.genre_ids[0] === genre_id)
+            console.log(sortedGenres)
+            this.setState({
+                list: sortedGenres
+            })
+        }
         const dropDownSort = (
-            <Menu>
+            <Menu theme={"dark"}>
                 <Menu.Item key="0">
                     <button onClick={() => listSortByPopularity()} className='sort-btn' type="primary">Sort By Popularity</button>
                 </Menu.Item>
                 <Menu.Item key="1">
                     <button onClick={() => listSortByRating()} className='sort-btn' type="primary">Sort By Rating</button>
                 </Menu.Item>
-                <button onClick={() => listSortByDate()} className='sort-btn' type="primary">Sort By Date</button>
+                <Menu.Item key="2">
+                    <button onClick={() => listSortByDate()} className='sort-btn' type="primary">Sort By Date</button>
+                </Menu.Item>
             </Menu>
         );
+        const filterSort = (
+            <Menu theme={"dark"}>
+                <Menu.Item key="0">
+                    <button onClick={() => filterGenres(28)} className='sort-btn' type="primary">Action</button>
+                </Menu.Item>
+                <Menu.Item key="1">
+                    <button onClick={() => filterGenres(12)} className='sort-btn' type="primary">Adventure</button>
+                </Menu.Item>
+                <Menu.Item key="2">
+                    <button onClick={() => filterGenres(16)} className='sort-btn' type="primary">Animation</button>
+                </Menu.Item>
+                <Menu.Item key="3">
+                    <button onClick={() => filterGenres(35)} className='sort-btn' type="primary">Comedy</button>
+                </Menu.Item>
+                <Menu.Item key="4">
+                    <button onClick={() => filterGenres(80)} className='sort-btn' type="primary">Crime</button>
+                </Menu.Item>
+                <Menu.Item key="5">
+                    <button onClick={() => filterGenres(99)} className='sort-btn' type="primary">Documentary</button>
+                </Menu.Item>
+                <Menu.Item key="6">
+                    <button onClick={() => filterGenres(18)} className='sort-btn' type="primary">Drama</button>
+                </Menu.Item>
+                <Menu.Item key="7">
+                    <button onClick={() => filterGenres(10751)} className='sort-btn' type="primary">Family</button>
+                </Menu.Item>
+                <Menu.Item key="8">
+                    <button onClick={() => filterGenres(14)} className='sort-btn' type="primary">Fantasy</button>
+                </Menu.Item>
+                <Menu.Item key="9">
+                    <button onClick={() => filterGenres(36)} className='sort-btn' type="primary">History</button>
+                </Menu.Item>
+                <Menu.Item key="10">
+                    <button onClick={() => filterGenres(27)} className='sort-btn' type="primary">Horror</button>
+                </Menu.Item>
+                <Menu.Item key="11">
+                    <button onClick={() => filterGenres(10402)} className='sort-btn' type="primary">Music</button>
+                </Menu.Item>
+                <Menu.Item key="12">
+                    <button onClick={() => filterGenres(9648)} className='sort-btn' type="primary">Mystery</button>
+                </Menu.Item>
+                <Menu.Item key="13">
+                    <button onClick={() => filterGenres(10749)} className='sort-btn' type="primary">Romance</button>
+                </Menu.Item>
+                <Menu.Item key="14">
+                    <button onClick={() => filterGenres(878)} className='sort-btn' type="primary">Science Fiction</button>
+                </Menu.Item>
+                <Menu.Item key="15">
+                    <button onClick={() => filterGenres(10770)} className='sort-btn' type="primary">TV Movie</button>
+                </Menu.Item>
+                <Menu.Item key="16">
+                    <button onClick={() => filterGenres(53)} className='sort-btn' type="primary">Thriller</button>
+                </Menu.Item>
+                <Menu.Item key="17">
+                    <button onClick={() => filterGenres(10752)} className='sort-btn' type="primary">War</button>
+                </Menu.Item>
+                <Menu.Item key="18">
+                    <button onClick={() => filterGenres(37)} className='sort-btn' type="primary">Western</button>
+                </Menu.Item>
+            </Menu>
+        )
         return (
             <Spin spinning={!isLoaded}>
                 <div className='container'>
@@ -71,7 +141,12 @@ class FilmList extends Component {
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <span>Sort</span>
                             </a>
-                        </Dropdown>,
+                        </Dropdown>
+                        <Dropdown overlay={filterSort} trigger={['click']}>
+                            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                <span>Filter Genres</span>
+                            </a>
+                        </Dropdown>
                     </div>
                     <List
                         grid={{
