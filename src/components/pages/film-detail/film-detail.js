@@ -7,7 +7,6 @@ import {Genres} from "../film-list/film-list";
 const FilmDetail = (props) => {
     const {detail} = props.location
     const img = "https://image.tmdb.org/t/p/original/" + `${detail.backdrop_path}`
-    console.log(detail.vote_average)
     const GlobalStyle = createGlobalStyle`
   body {
     background: url(${img}) !important;

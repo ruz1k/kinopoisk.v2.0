@@ -1,4 +1,4 @@
-import '../../App.css';
+import '../../app.css';
 import Header from "../header/header";
 import RoutePages from "../route/route";
 

@@ -11,6 +11,8 @@ class FilmList extends Component {
             error: null,
             isLoaded: false,
             list: [],
+            genresData: []
+
         };
     }
 
@@ -21,7 +23,8 @@ class FilmList extends Component {
                 (data) => {
                     this.setState({
                         isLoaded: true,
-                        list: data.data.results
+                        list: data.data.results,
+                        dataGenres: data.data.results
                     });
                 },
                 (error) => {
@@ -53,8 +56,8 @@ class FilmList extends Component {
             })
         }
         const filterGenres = (genre_id) => {
-            const sortedGenres = list.filter(item => item.genre_ids[0] === genre_id)
-            console.log(sortedGenres)
+            const {dataGenres} = this.state
+            const sortedGenres = dataGenres.filter(item => item.genre_ids[0] === genre_id)
             this.setState({
                 list: sortedGenres
             })
@@ -153,8 +156,8 @@ class FilmList extends Component {
                             gutter: 16,
                             xs: 1,
                             sm: 2,
-                            md: 4,
-                            lg: 4,
+                            md: 3,
+                            lg: 3,
                             xl: 3,
                             xxl: 3,
                         }}
