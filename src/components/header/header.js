@@ -11,6 +11,7 @@ const Header = () => {
                     <span>Artel</span>
                     <span>Film</span>
                 </NavLink>
+                <span>Directed by Arthur Romanchev</span>
             </div>
         </header>
     )
