@@ -14,8 +14,18 @@ const FilmDetail = (props) => {
     background: url(${img}) !important;
     background-color: rgba(0,0,0,0.7) !important;
     background-blend-mode: color;
-    background-size: cover !important;
-    background-position: center;
+    background-position: center !important;
+    background-repeat: no-repeat !important
+  }
+  @media screen (max-width: 480px) {
+    body {
+      background-size: auto !important
+    }
+  }
+   @media (max-width: 480px) {
+    body {
+      background-size: auto !important
+    }
   }
 `
     return (
