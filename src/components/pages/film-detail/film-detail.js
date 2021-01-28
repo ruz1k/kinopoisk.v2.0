@@ -7,6 +7,8 @@ import {Genres} from "../film-list/film-list";
 const FilmDetail = (props) => {
     const {detail} = props.location
     const img = "https://image.tmdb.org/t/p/original/" + `${detail.backdrop_path}`
+    /// Замена заднего фона у body на фото,
+    //  которые мы получали из API
     const GlobalStyle = createGlobalStyle`
   body {
     background: url(${img}) !important;
@@ -31,6 +33,9 @@ const FilmDetail = (props) => {
                     </div>
                     <div className='span-detail'>
                         <span>Relase date: {detail.release_date}</span>
+                    </div>
+                    <div className='span-detail favorite'>
+                        {detail.favorite === true ? <span>Film added to favorite</span> : <span></span>}
                     </div>
                 </div>
                 <div className='content__caption'>

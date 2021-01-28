@@ -3,28 +3,34 @@ import axios from "axios";
 import {List, Card, Image, Spin, Dropdown, Menu} from "antd";
 import "./film-list.sass"
 import {Link} from "react-router-dom";
+import arrow from '../../../img/markup_static_img_svg_collapse-down-white.svg'
+import {HeartOutlined} from "@ant-design/icons";
 
 class FilmList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            list: [],
-            genresData: []
-
-        };
+    state = {
+        error: null,
+        isLoaded: false,
+        list: [],
+        dataGenres: [],
     }
 
     componentDidMount() {
-        axios("https://api.themoviedb.org/3/discover/movie?api_key=32adee17c164b555fa727f7406e2fe07&language=en-US&include_adult=false&include_video=false")
+        axios("https://api.themoviedb.org/3/discover/movie?api_key=32adee17c164b555fa727f7406e2fe07&language=en-US&include_adult=false&include_video=false&")
             .then(res => res)
             .then(
                 (data) => {
-                    this.setState({
-                        isLoaded: true,
-                        list: data.data.results,
-                        dataGenres: data.data.results
+                    this.setState(state => {
+                        const dataWithFavorite = data.data.results.map((item) => {
+                            return {
+                                ...item,
+                                favorite: false
+                            }
+                        })
+                        return {
+                            list: [...dataWithFavorite],
+                            isLoaded: true,
+                            dataGenres: data.data.results
+                        };
                     });
                 },
                 (error) => {
@@ -35,26 +41,43 @@ class FilmList extends Component {
                 }
             )
     }
+
     render() {
         const {isLoaded, list} = this.state
+        const deleteOnFavorite = (dataFav) => {
+            dataFav.favorite = false
+            this.setState({
+                list
+            })
+        }
+        const addToFavorite = (dataFav) => {
+            dataFav.favorite = true
+            this.setState({
+                list
+            })
+        }
+        /// Сортировка по популярности
         const listSortByPopularity = () => {
-            const sorted = list.sort((a,b) => (a.popularity > b.popularity) ? -1 : 1)
+            const sorted = list.sort((a, b) => (a.popularity > b.popularity) ? -1 : 1)
             this.setState({
                 list: sorted
             })
         }
+        /// Сортировка по Рейтингу
         const listSortByRating = () => {
-            const sorted = list.sort((a,b) => (a.vote_average > b.vote_average) ? -1 : 1)
+            const sorted = list.sort((a, b) => (a.vote_average > b.vote_average) ? -1 : 1)
             this.setState({
                 list: sorted
             })
         }
+        /// Сортировка по Дате
         const listSortByDate = () => {
-            const sorted = list.sort((a,b) => (a.release_date > b.release_date) ? -1 : 1)
+            const sorted = list.sort((a, b) => (a.release_date > b.release_date) ? -1 : 1)
             this.setState({
                 list: sorted
             })
         }
+        /// Фильтр жанров
         const filterGenres = (genre_id) => {
             const {dataGenres} = this.state
             const sortedGenres = dataGenres.filter(item => item.genre_ids[0] === genre_id)
@@ -62,16 +85,22 @@ class FilmList extends Component {
                 list: sortedGenres
             })
         }
+        /// Dropdown меню
         const dropDownSort = (
             <Menu theme={"dark"}>
                 <Menu.Item key="0">
-                    <button onClick={() => listSortByPopularity()} className='sort-btn' type="primary">Sort By Popularity</button>
                 </Menu.Item>
                 <Menu.Item key="1">
-                    <button onClick={() => listSortByRating()} className='sort-btn' type="primary">Sort By Rating</button>
+                    <button onClick={() => listSortByRating()} className='sort-btn' type="primary">Sort By Rating
+                    </button>
                 </Menu.Item>
                 <Menu.Item key="2">
                     <button onClick={() => listSortByDate()} className='sort-btn' type="primary">Sort By Date</button>
+                </Menu.Item>
+                <Menu.Item key='3'>
+                    <button onClick={() => listSortByPopularity()} className='sort-btn' type="primary">Sort By
+                        Popularity
+                    </button>
                 </Menu.Item>
             </Menu>
         );
@@ -120,7 +149,8 @@ class FilmList extends Component {
                     <button onClick={() => filterGenres(10749)} className='sort-btn' type="primary">Romance</button>
                 </Menu.Item>
                 <Menu.Item key="14">
-                    <button onClick={() => filterGenres(878)} className='sort-btn' type="primary">Science Fiction</button>
+                    <button onClick={() => filterGenres(878)} className='sort-btn' type="primary">Science Fiction
+                    </button>
                 </Menu.Item>
                 <Menu.Item key="15">
                     <button onClick={() => filterGenres(10770)} className='sort-btn' type="primary">TV Movie</button>
@@ -142,12 +172,16 @@ class FilmList extends Component {
                     <div className='sort'>
                         <Dropdown overlay={dropDownSort} trigger={['click']}>
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <span>Sort</span>
+                                <span>
+                                    Sort
+                                <img alt='' src={arrow}/>
+                                </span>
                             </a>
                         </Dropdown>
                         <Dropdown overlay={filterSort} trigger={['click']}>
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <span>Filter Genres</span>
+                                <span>Filter Genres
+                                <img alt='' src={arrow}/></span>
                             </a>
                         </Dropdown>
                     </div>
@@ -155,7 +189,7 @@ class FilmList extends Component {
                         grid={{
                             gutter: 16,
                             xs: 1,
-                            sm: 2,
+                            sm: 3,
                             md: 3,
                             lg: 3,
                             xl: 3,
@@ -167,26 +201,30 @@ class FilmList extends Component {
                             size: "small",
                         }}
                         dataSource={list}
-                        renderItem={item => (
-                            <List.Item>
-                                <Link to={{
-                                    pathname: `/Film/${item.id}`,
-                                    detail: item
-                                }}
-                                >
-                                    <Card bordered={false}>
-                                        <Image
-                                            src={"https://image.tmdb.org/t/p/original/" + `${item.poster_path}`}
-                                        />
-                                        <p>{item.title}</p>
-                                        <span
-                                            className={`rating ${item.vote_average >= 7 ? "good-film" : item.vote_average < 5 ? "bad-film" : "medium-film"} `}>{item.vote_average}</span>
-                                        <Genres ids={item.genre_ids[0]}/>
-                                        <span>, {item.release_date.substr(0, 4)}</span>
-                                    </Card>
-                                </Link>
-                            </List.Item>
-                        )}
+                        renderItem={item => {
+                            return (
+                                <List.Item>
+                                    <Link to={{
+                                        pathname: `/Film/${item.id}`,
+                                        detail: item
+                                    }}
+                                    >
+                                        <Card bordered={false}>
+                                            <Image
+                                                src={"https://image.tmdb.org/t/p/original/" + `${item.poster_path}`}
+                                            />
+                                            <p>{item.title}</p>
+                                            <span
+                                                className={`rating ${item.vote_average >= 7 ? "good-film" : item.vote_average < 5 ? "bad-film" : "medium-film"} `}>{item.vote_average}</span>
+                                            <Genres ids={item.genre_ids[0]}/>
+                                            <span>, {item.release_date.substr(0, 4)}</span>
+                                        </Card>
+                                    </Link>
+                                    {item.favorite === true ? <button onClick={() => deleteOnFavorite(item)} className='want-to-watch true'>Delete on Favorite</button>
+                                        : <button onClick={() => addToFavorite(item)} className='want-to-watch false'>Add to Favorite</button>}
+                                </List.Item>
+                            )
+                        }}
                     />
                 </div>
             </Spin>

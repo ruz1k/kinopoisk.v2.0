@@ -1,12 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap')
 
+li
+  max-width: 60px
+
+.ant-dropdown-menu
+  max-width: 160px
+  width: 160px
+
 button
   background: none
   border: none
+  cursor: pointer
+button:focus
+  outline: none
+
+.want-to-watch
+  font-size: 18px
+  text-align: center
+  font-family: "Fira Sans"
+  font-weight: bold
+  max-width: 290px
+  width: 290px
+  background: rgb(255, 102, 0)
+  text-transform: uppercase
+  @media screen and (min-width: 480px) and (max-width: 1024px)
+    max-width: 200px
+    width: 200px
+    font-size: 16px
+  @media screen and (max-width: 480px)
+    max-width: 220px
+    width: 220px
+    font-size: 16px
+.want-to-watch.true
+  color: black
+
 .container
   max-width: 976px
   margin: 0 auto
   padding-bottom: 64px
+  & .ant-dropdown-open
+    & img
+      transform: rotate(180deg)
+      transition: .3s
+  & .ant-dropdown-link
+    & img
+      position: relative
+      left: 8px
+      transition: .3s
   & .sort
     display: flex
     border-bottom: 1px solid #e0e0e0
@@ -24,7 +64,7 @@ button
       margin-bottom: 8px
       @media screen and (max-width: 480px)
         font-size: 16px
-      @media screen and (min-width: 767px) and (max-width: 1024px)
+      @media screen and (min-width: 480px) and (max-width: 1024px)
         font-size: 16px
     & button:focus
       outline: none
@@ -99,7 +139,7 @@ button
     & span:nth-last-child(1)
       margin-bottom: 0
 
-@media screen and (min-width: 767px) and (max-width: 1024px)
+@media screen and (min-width: 480px) and (max-width: 1024px)
   .container
     max-width: 700px
     margin: 0 auto
