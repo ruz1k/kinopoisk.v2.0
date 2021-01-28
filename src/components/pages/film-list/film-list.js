@@ -4,7 +4,6 @@ import {List, Card, Image, Spin, Dropdown, Menu} from "antd";
 import "./film-list.sass"
 import {Link} from "react-router-dom";
 import arrow from '../../../img/markup_static_img_svg_collapse-down-white.svg'
-import {HeartOutlined} from "@ant-design/icons";
 
 class FilmList extends Component {
     state = {
