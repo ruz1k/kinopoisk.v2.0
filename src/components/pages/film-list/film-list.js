@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from "axios";
-import {List, Card, Image, Spin, Dropdown, Menu} from "antd";
+import {List, Card, Image, Spin, Dropdown, Menu, message } from "antd";
 import "./film-list.sass"
 import {Link} from "react-router-dom";
 import arrow from '../../../img/markup_static_img_svg_collapse-down-white.svg'
@@ -13,8 +13,8 @@ class FilmList extends Component {
         dataGenres: [],
     }
 
-    componentDidMount() {
-        axios("https://api.themoviedb.org/3/discover/movie?api_key=32adee17c164b555fa727f7406e2fe07&language=en-US&include_adult=false&include_video=false&")
+    fetchData() {
+        axios("https://api.themoviedb.org/3/discover/movie?api_key=32adee17c164b555fa727f7406e2fe07&language=en-US&include_adult=false&include_video=false")
             .then(res => res)
             .then(
                 (data) => {
@@ -41,19 +41,30 @@ class FilmList extends Component {
             )
     }
 
+    componentDidMount() {
+        this.fetchData()
+    }
+
     render() {
         const {isLoaded, list} = this.state
+        /// Удаление и добавление в избранное и из избранного
         const deleteOnFavorite = (dataFav) => {
             dataFav.favorite = false
+            message.error(`Film deleted in favorite`);
             this.setState({
                 list
             })
         }
         const addToFavorite = (dataFav) => {
             dataFav.favorite = true
+            message.success(`Film added to favorite`);
             this.setState({
                 list
             })
+        }
+        /// Очистка фильтров и сортировки
+        const resetList = () => {
+            this.fetchData()
         }
         /// Сортировка по популярности
         const listSortByPopularity = () => {
@@ -61,6 +72,10 @@ class FilmList extends Component {
             this.setState({
                 list: sorted
             })
+            const active = document.querySelectorAll('.ant-dropdown-menu li')
+            for (let i = 0; active.length > i; i++) {
+                active[i].classList.add('active')
+            }
         }
         /// Сортировка по Рейтингу
         const listSortByRating = () => {
@@ -87,16 +102,18 @@ class FilmList extends Component {
         /// Dropdown меню
         const dropDownSort = (
             <Menu theme={"dark"}>
-                <Menu.Item key="0">
+                <Menu.Item>
+                    <button onClick={() => resetList()} className='sort-btn reset' type="primary">Reset
+                    </button>
                 </Menu.Item>
-                <Menu.Item key="1">
+                <Menu.Item key="0">
                     <button onClick={() => listSortByRating()} className='sort-btn' type="primary">Sort By Rating
                     </button>
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="1">
                     <button onClick={() => listSortByDate()} className='sort-btn' type="primary">Sort By Date</button>
                 </Menu.Item>
-                <Menu.Item key='3'>
+                <Menu.Item key='2'>
                     <button onClick={() => listSortByPopularity()} className='sort-btn' type="primary">Sort By
                         Popularity
                     </button>
@@ -105,6 +122,9 @@ class FilmList extends Component {
         );
         const filterSort = (
             <Menu theme={"dark"}>
+                <Menu.Item>
+                    <button onClick={() => resetList()} className='sort-btn reset' type="primary">Reset</button>
+                </Menu.Item>
                 <Menu.Item key="0">
                     <button onClick={() => filterGenres(28)} className='sort-btn' type="primary">Action</button>
                 </Menu.Item>
