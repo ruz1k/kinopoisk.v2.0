@@ -12,7 +12,7 @@ const FilmDetail = (props) => {
     const GlobalStyle = createGlobalStyle`
   body {
     background: url(${img}) !important;
-    background-color: rgba(0,0,0,0.9) !important;
+    background-color: rgba(0,0,0,0.7) !important;
     background-blend-mode: color;
     background-size: cover !important;
     background-position: center;

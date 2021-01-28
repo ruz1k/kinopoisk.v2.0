@@ -50,7 +50,7 @@ class FilmList extends Component {
         /// Удаление и добавление в избранное и из избранного
         const deleteOnFavorite = (dataFav) => {
             dataFav.favorite = false
-            message.error(`Film deleted in favorite`);
+            message.error(`Film deleted on favorite`);
             this.setState({
                 list
             })
